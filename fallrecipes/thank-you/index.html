@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Download — Harvest Recipes</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/src/input.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WW0FSBP4H1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WW0FSBP4H1');
+    </script>
+  </head>
+  <body class="theme-harvest">
+    <header class="border-b border-brand-100">
+      <div class="container-page flex items-center justify-center py-5">
+        <a href="/" class="flex items-center gap-2 text-lg font-bold text-brand-800">
+          <img src="/icons/favicon.svg" alt="" width="32" height="32" class="rounded-lg" />
+          Kidney Food Guide
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container-page">
+          <div class="card mx-auto max-w-xl text-center">
+
+            <!-- Brief loading state, swapped out by src/main.js once the order check runs -->
+            <div data-order-checking>
+              <div class="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-harvest-200 border-t-harvest-600" aria-hidden="true"></div>
+              <p class="mt-6 text-lg text-brand-800/70">One moment while we prepare your download&hellip;</p>
+            </div>
+
+            <!-- If JavaScript can't run at all, don't leave the visitor stuck on the spinner above -->
+            <noscript>
+              <style>[data-order-checking] { display: none; }</style>
+              <h1 class="text-2xl font-bold text-brand-900 sm:text-3xl">Thank You for Your Order!</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                Your copy of <strong>Harvest Recipes</strong> is ready.
+              </p>
+              <a href="/downloads/harvest-recipes.pdf" download class="btn-primary mt-8">
+                Download Your PDF
+              </a>
+            </noscript>
+
+            <!-- Shown when the visit looks like a real post-checkout redirect -->
+            <div data-order-found hidden>
+              <span class="icon-badge mx-auto !h-16 !w-16">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <h1 class="mt-5 text-2xl font-bold text-brand-900 sm:text-3xl">Thank You for Your Order!</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                Your copy of <strong>Harvest Recipes</strong> is ready — 33 kidney-friendly fall
+                recipes, yours to keep.
+              </p>
+              <a
+                href="/downloads/harvest-recipes.pdf"
+                download
+                class="btn-primary mt-8 !bg-harvest-600 hover:!bg-harvest-700"
+              >
+                Download Your PDF
+              </a>
+              <p class="mt-4 text-sm text-brand-800/60">
+                Save this page or the file now — we recommend downloading it to your device rather
+                than relying on this link later.
+              </p>
+            </div>
+
+            <!-- Shown when the page is opened directly, with no order context -->
+            <div data-order-missing hidden>
+              <span class="icon-badge mx-auto !h-16 !w-16 !bg-brand-50 !text-brand-500">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <line x1="12" y1="8" x2="12" y2="13" />
+                  <line x1="12" y1="16" x2="12" y2="16.01" />
+                </svg>
+              </span>
+              <h1 class="mt-5 text-2xl font-bold text-brand-900 sm:text-3xl">We Couldn't Find Your Order</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                This page is only for customers arriving right after checkout. If you just
+                purchased Harvest Recipes, check your email confirmation for your download link.
+              </p>
+              <a href="/fallrecipes/" class="btn-primary mt-8">Get Harvest Recipes</a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-brand-100">
+      <div class="container-page py-10 text-center text-sm text-brand-800/70">
+        <p>&copy; 2026 Kidney Food Guide, a RenalTracker product. All rights reserved.</p>
+        <p class="mt-1">
+          Questions about your order? Email
+          <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900">support@renaltracker.com</a>.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
