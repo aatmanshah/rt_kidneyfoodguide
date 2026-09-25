@@ -9,6 +9,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         book: resolve(__dirname, "book/index.html"),
+        fallrecipes: resolve(__dirname, "fallrecipes/index.html"),
+        fallrecipesThankYou: resolve(__dirname, "fallrecipes/thank-you/index.html"),
       },
     },
   },

@@ -30,6 +30,23 @@
   /* Warm neutral background for a softer, less clinical feel */
   --color-cream-50: #fdfcfa;
   --color-cream-100: #faf7f2;
+
+  /* Harvest: pumpkin-to-espresso — seasonal accent for the fall recipes page */
+  --color-harvest-50: #fdf1e2;
+  --color-harvest-100: #fce0bd;
+  --color-harvest-200: #f8c98a;
+  --color-harvest-300: #f2ab57;
+  --color-harvest-400: #e88f37;
+  --color-harvest-500: #d9741f;
+  --color-harvest-600: #b85d16;
+  --color-harvest-700: #954a14;
+  --color-harvest-800: #6b3a19;
+  --color-harvest-900: #402615;
+
+  /* Parchment: warm cream/tan — seasonal page background & dividers */
+  --color-parchment-50: #fdf6ec;
+  --color-parchment-100: #f8ead2;
+  --color-parchment-200: #f0dab3;
 }
 
 @layer base {
@@ -101,4 +118,57 @@
   .reveal.is-visible {
     @apply opacity-100 translate-y-0;
   }
+}
+
+/*
+ * Seasonal reskin for the /fallrecipes page — scoped so no other page is
+ * affected. Deliberately left unlayered: Tailwind's cascade layers rank
+ * `utilities` above `components`, so a components-layer override here would
+ * lose to any plain utility class in the markup (bg-white, border-brand-100,
+ * bg-brand-800, etc.) no matter how specific the selector. Unlayered CSS
+ * always wins over layered CSS, which is exactly the "always win" behavior
+ * these overrides need.
+ */
+.theme-harvest {
+  background-color: var(--color-parchment-50);
+}
+
+.theme-harvest header {
+  background-color: color-mix(in srgb, var(--color-parchment-50) 90%, transparent);
+}
+
+.theme-harvest .bg-white {
+  background-color: var(--color-parchment-100);
+}
+
+.theme-harvest .border-brand-100 {
+  border-color: var(--color-parchment-200);
+}
+
+.theme-harvest .badge {
+  background-color: var(--color-harvest-100);
+  color: var(--color-harvest-800);
+}
+
+.theme-harvest .icon-badge {
+  background-color: var(--color-harvest-50);
+  color: var(--color-harvest-600);
+}
+
+.theme-harvest .btn-primary {
+  background-color: var(--color-harvest-600);
+  --tw-shadow-color: color-mix(in srgb, var(--color-harvest-900) 20%, transparent);
+}
+
+.theme-harvest .btn-primary:hover {
+  background-color: var(--color-harvest-700);
+}
+
+.theme-harvest .btn-secondary:hover {
+  background-color: var(--color-harvest-50);
+  border-color: var(--color-harvest-300);
+}
+
+.theme-harvest .bg-brand-800 {
+  background-color: var(--color-harvest-900);
 }
