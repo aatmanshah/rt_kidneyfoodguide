@@ -13,25 +13,6 @@ if (seasonalPromo) {
   seasonalPromo.hidden = !isFallSeason;
 }
 
-// Forward campaign params (utm_*) onto the external Zylvie checkout links.
-//
-// Checkout happens off this domain, so without this a UTM tag only proves
-// someone landed on the page — it wouldn't survive the click through to
-// checkout, and GA4 couldn't tell which traffic source actually converted.
-const incomingUtmParams = new URLSearchParams(
-  [...new URLSearchParams(window.location.search)].filter(([key]) => key.startsWith("utm_")),
-);
-
-if ([...incomingUtmParams].length) {
-  document.querySelectorAll('a[href^="https://zylvie.com/"]').forEach((link) => {
-    const checkoutUrl = new URL(link.href);
-    for (const [key, value] of incomingUtmParams) {
-      checkoutUrl.searchParams.set(key, value);
-    }
-    link.href = checkoutUrl.toString();
-  });
-}
-
 // Fall Recipes "thank you" page: a soft, honest order check.
 //
 // There is no backend here to verify a real purchase against — this only
