@@ -75,44 +75,52 @@
 
       <section class="section pt-0">
         <div class="container-page">
-          <div class="card mx-auto max-w-2xl text-center">
-            <img
-              src="/images/book-cover-photo.png"
-              alt="The Kidney-Friendly Food List, a renal diet reference book from RenalTracker Publishing"
-              width="900"
-              height="704"
-              loading="lazy"
-              class="mx-auto mb-6 h-64 w-auto"
-            />
-            <h2 class="text-2xl font-bold text-brand-900">The Kidney-Friendly Food List</h2>
-            <p class="mt-3 text-brand-800/80">
-              Thousands of validated kidney-friendly foods, printable lists, and expert guidance
-              made simple for every stage of CKD.
-            </p>
-            <a href="/book/" class="btn-primary mt-6">Order Your Copy</a>
-          </div>
-        </div>
-      </section>
+          <!--
+            Two books, side by side on tablet/desktop (new release on the left),
+            stacked on mobile (new release on top) — both follow naturally from
+            DOM order in a grid, no responsive re-ordering needed. When the
+            seasonal Harvest card is hidden outside Sept-Dec, the :has() rule in
+            src/input.css collapses this back to the original single centered
+            card instead of leaving a blank column beside it.
+          -->
+          <div id="home-books" class="grid grid-cols-1 gap-8 md:grid-cols-2">
 
-      <!-- Seasonal: Harvest Recipes — shown Sept through Dec via src/main.js, hidden otherwise -->
-      <section hidden data-seasonal="fall" class="section pt-0">
-        <div class="container-page">
-          <div class="card mx-auto max-w-2xl text-center bg-harvest-50 ring-harvest-900/5">
-            <span class="badge !bg-harvest-100 !text-harvest-800">New seasonal digital cookbook</span>
-            <img
-              src="/images/harvest/cover.png"
-              alt="Harvest Recipes — Kidney-Friendly Breakfasts, Lunches, Dinners &amp; Desserts, a digital cookbook from RenalTracker"
-              width="900"
-              height="1391"
-              loading="lazy"
-              class="mx-auto mt-6 mb-6 h-64 w-auto"
-            />
-            <h2 class="text-2xl font-bold text-brand-900">Harvest Recipes</h2>
-            <p class="mt-3 text-brand-800/80">
-              33 kidney-friendly fall recipes: breakfasts, lunches, dinners, sides, soups, and
-              desserts, all in one digital cookbook.
-            </p>
-            <a href="/fallrecipes/" class="btn-primary mt-6 !bg-harvest-600 hover:!bg-harvest-700">Get the Recipes</a>
+            <!-- Seasonal: Harvest Recipes — shown Sept through Dec via src/main.js, hidden otherwise -->
+            <div hidden data-seasonal="fall" data-book="harvest" class="card text-center bg-harvest-50 ring-harvest-900/5">
+              <span class="badge !bg-harvest-100 !text-harvest-800">New seasonal digital cookbook</span>
+              <img
+                src="/images/harvest/cover.png"
+                alt="Harvest Recipes — Kidney-Friendly Breakfasts, Lunches, Dinners &amp; Desserts, a digital cookbook from RenalTracker"
+                width="900"
+                height="1391"
+                loading="lazy"
+                class="mx-auto mt-6 mb-6 h-64 w-auto"
+              />
+              <h2 class="text-2xl font-bold text-brand-900">Harvest Recipes</h2>
+              <p class="mt-3 text-brand-800/80">
+                33 kidney-friendly fall recipes: breakfasts, lunches, dinners, sides, soups, and
+                desserts, all in one digital cookbook.
+              </p>
+              <a href="/fallrecipes/" class="btn-primary mt-6 !bg-harvest-600 hover:!bg-harvest-700">Get the Recipes</a>
+            </div>
+
+            <div data-book="foodlist" class="card text-center">
+              <img
+                src="/images/book-cover-photo.png"
+                alt="The Kidney-Friendly Food List, a renal diet reference book from RenalTracker Publishing"
+                width="900"
+                height="704"
+                loading="lazy"
+                class="mx-auto mb-6 h-64 w-auto"
+              />
+              <h2 class="text-2xl font-bold text-brand-900">The Kidney-Friendly Food List</h2>
+              <p class="mt-3 text-brand-800/80">
+                Thousands of validated kidney-friendly foods, printable lists, and expert guidance
+                made simple for every stage of CKD.
+              </p>
+              <a href="/book/" class="btn-primary mt-6">Order Your Copy</a>
+            </div>
+
           </div>
         </div>
       </section>

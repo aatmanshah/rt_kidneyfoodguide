@@ -172,3 +172,19 @@
 .theme-harvest .bg-brand-800 {
   background-color: var(--color-harvest-900);
 }
+
+/*
+ * Homepage book grid: when the seasonal Harvest card is hidden (outside
+ * Sept-Dec), let the remaining book card take the full row and recenter,
+ * matching the original solo layout instead of leaving a blank column
+ * beside it. Unlayered for the same reason as the block above — it needs
+ * to beat the md:grid-cols-2 utility at desktop widths too.
+ */
+#home-books:has(> [data-book="harvest"][hidden]) {
+  grid-template-columns: 1fr;
+}
+
+#home-books:has(> [data-book="harvest"][hidden]) [data-book="foodlist"] {
+  max-width: 42rem;
+  margin-inline: auto;
+}
