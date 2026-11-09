@@ -1,0 +1,18 @@
+@import "../src/input.css";
+
+/* Dark mode here is driven by <html class="dark"> instead of the visitor's OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Page-only: deeper, cooler surfaces than the shared brand greens. */
+@theme {
+  --color-brand-900: #08110f;
+  --color-brand-800: #101f1b;
+}
+
+/* Soft brand-tinted glow behind the hero; sits on the body so it scrolls away naturally. */
+html.dark body {
+  background-image:
+    radial-gradient(60rem 32rem at 85% -8%, rgb(61 133 112 / 0.2), transparent 65%),
+    radial-gradient(40rem 26rem at -10% 18%, rgb(249 122 66 / 0.07), transparent 65%);
+  background-repeat: no-repeat;
+}

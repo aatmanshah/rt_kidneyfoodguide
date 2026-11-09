@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#08110f" />
+    <title>RenalTracker — Kidney-friendly meal plans and grocery lists (coming soon)</title>
+    <meta
+      name="description"
+      content="RenalTracker is a mobile-first app, coming soon, that turns a short questionnaire into a multi-day kidney-friendly meal plan and a grocery list sorted by store department."
+    />
+    <!-- DRAFT: remove this once the page is approved for launch. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" sizes="200x200" href="/images/renaltracker-favicon.png" />
+    <link rel="apple-touch-icon" href="/images/renaltracker-favicon.png" />
+
+    <!--
+      Intentionally NO analytics, tag manager, third-party fonts or form endpoints on this draft.
+      Fonts fall back to the system UI font stack from src/input.css.
+    -->
+    <link rel="stylesheet" href="/renaltracker/renaltracker.css" />
+
+    <style>
+      /* Keep the keyboard focus ring visible against the dark background. */
+      :focus-visible {
+        outline-color: #ffc4a3;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-cream-50 text-brand-900 dark:bg-brand-900 dark:text-brand-50">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-5 focus:py-3 focus:font-semibold focus:text-brand-800 focus:shadow-lg"
+    >
+      Skip to content
+    </a>
+
+    <header class="border-b border-brand-100 bg-cream-50 dark:border-brand-700 dark:bg-brand-900">
+      <div class="container-page flex items-center justify-between gap-4 py-4">
+        <a href="#top" class="flex min-w-0 items-center" aria-label="RenalTracker home">
+          <img
+            src="/images/renaltracker-wordmark.png"
+            alt="RenalTracker"
+            width="640"
+            height="81"
+            class="h-auto w-40 max-w-full sm:w-56"
+          />
+        </a>
+        <nav aria-label="Page sections" class="hidden items-center gap-6 text-base font-medium sm:flex">
+          <a href="#how-it-works" class="text-brand-700 hover:text-brand-900 hover:underline dark:text-brand-200 dark:hover:text-white">How it works</a>
+          <a href="#features" class="text-brand-700 hover:text-brand-900 hover:underline dark:text-brand-200 dark:hover:text-white">Features</a>
+          <a href="#safety" class="text-brand-700 hover:text-brand-900 hover:underline dark:text-brand-200 dark:hover:text-white">Safety</a>
+        </nav>
+        <span class="badge shrink-0 whitespace-nowrap dark:bg-brand-800 dark:text-brand-100">Coming soon</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ======================= HERO ======================= -->
+      <section id="top" class="section !pb-12 sm:!pb-20">
+        <div class="container-page grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <p class="eyebrow dark:text-brand-300">For people with chronic kidney disease, and the people who cook for them</p>
+            <h1 class="section-title dark:text-white">
+              A kidney-friendly meal plan and grocery list, made for you in minutes.
+            </h1>
+            <p class="section-lede dark:text-brand-100">
+              Answer a few simple questions. RenalTracker builds a 3 or 7 day meal plan
+              with estimated nutrition for each meal, plus one grocery list sorted by store department.
+            </p>
+            <div class="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+              <a href="#coming-soon" class="btn-primary !bg-accent-700 hover:!bg-accent-800">Waitlist coming soon</a>
+              <a href="#how-it-works" class="btn-secondary dark:!border-brand-600 dark:!bg-transparent dark:!text-brand-50 dark:hover:!bg-brand-800">See how it works</a>
+            </div>
+            <p class="mt-5 max-w-xl text-sm leading-relaxed text-brand-800/80 dark:text-brand-200">
+              Meal suggestions and nutrition numbers are AI-generated estimates and have not been verified by a renal
+              dietitian. See the <a href="#disclaimer" class="font-medium underline underline-offset-2">full disclaimer</a>.
+            </p>
+          </div>
+
+          <!-- Product mockup (decorative sample, not real output) -->
+          <figure class="mx-auto w-full max-w-sm">
+            <div aria-hidden="true" class="rounded-[2.5rem] bg-brand-900 p-3 shadow-2xl shadow-brand-900/30 ring-1 ring-brand-900/10 dark:bg-black dark:ring-white/10">
+              <div class="rounded-[2rem] bg-cream-50 p-4 text-brand-900 dark:bg-brand-800 dark:text-brand-50">
+                <div class="mx-auto mb-3 h-1.5 w-16 rounded-full bg-brand-200 dark:bg-brand-600"></div>
+
+                <p class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">Day 1 &middot; Dinner</p>
+                <p class="mt-1 text-lg font-bold leading-snug">Lemon herb chicken with roasted cauliflower</p>
+
+                <dl class="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Sodium</dt>
+                    <dd class="text-sm font-bold">~380 mg</dd>
+                  </div>
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Potassium</dt>
+                    <dd class="text-sm font-bold">~420 mg</dd>
+                  </div>
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Phosphorus</dt>
+                    <dd class="text-sm font-bold">~210 mg</dd>
+                  </div>
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Protein</dt>
+                    <dd class="text-sm font-bold">~28 g</dd>
+                  </div>
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Carbs</dt>
+                    <dd class="text-sm font-bold">~12 g</dd>
+                  </div>
+                  <div class="rounded-xl bg-white px-1 py-2 ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                    <dt class="text-brand-700 dark:text-brand-200">Fiber</dt>
+                    <dd class="text-sm font-bold">~4 g</dd>
+                  </div>
+                </dl>
+
+                <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-300">Grocery list</p>
+                <div class="mt-1 rounded-2xl bg-white p-3 text-sm ring-1 ring-brand-900/5 dark:bg-brand-900 dark:ring-white/10">
+                  <p class="text-xs font-semibold text-brand-700 dark:text-brand-200">Produce</p>
+                  <ul class="mt-1 space-y-1.5">
+                    <li class="flex items-center gap-2">
+                      <svg width="18" height="18" viewBox="0 0 18 18" focusable="false"><rect width="18" height="18" rx="5" fill="#2d6b59" /><path d="M5 9.5l2.5 2.5L13 6.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                      <span class="text-brand-700 line-through dark:text-brand-200">Cauliflower</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <svg width="18" height="18" viewBox="0 0 18 18" focusable="false"><rect x="1" y="1" width="16" height="16" rx="4.5" fill="none" stroke="#5fa189" stroke-width="2" /></svg>
+                      <span>Lemons</span>
+                    </li>
+                  </ul>
+                  <p class="mt-2 text-xs font-semibold text-brand-700 dark:text-brand-200">Meat &amp; seafood</p>
+                  <ul class="mt-1">
+                    <li class="flex items-center gap-2">
+                      <svg width="18" height="18" viewBox="0 0 18 18" focusable="false"><rect x="1" y="1" width="16" height="16" rx="4.5" fill="none" stroke="#5fa189" stroke-width="2" /></svg>
+                      <span>Chicken breast</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <figcaption class="mt-4 text-center text-sm text-brand-800/80 dark:text-brand-200">
+              <strong class="font-semibold">Example only.</strong> Sample data to show the layout. This is not a real
+              plan or medical advice.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ======================= HOW IT WORKS ======================= -->
+      <section id="how-it-works" class="section bg-white dark:bg-brand-800/60" aria-labelledby="how-title">
+        <div class="container-page">
+          <p class="eyebrow dark:text-brand-300">How it works</p>
+          <h2 id="how-title" class="section-title dark:text-white">Four steps from questions to grocery list.</h2>
+          <p class="section-lede dark:text-brand-100">It takes a few minutes. Only the first two steps are required.</p>
+
+          <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <li class="card bg-cream-50 dark:bg-brand-900 dark:ring-white/10">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white" aria-hidden="true">1</span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Health profile</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Choose your CKD stage: Stage 1-2, Stage 3, Stage 4-5 not on dialysis, Dialysis, or Unsure. Say whether
+                you also have diabetes and/or high blood pressure.
+              </p>
+            </li>
+            <li class="card bg-cream-50 dark:bg-brand-900 dark:ring-white/10">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white" aria-hidden="true">2</span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Dietary baseline</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Set servings and plan length (3 or 7 days). Pick vegetarian, vegan or no seafood, and list ingredients
+                you dislike.
+              </p>
+            </li>
+            <li class="card bg-cream-50 dark:bg-brand-900 dark:ring-white/10">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white" aria-hidden="true">3</span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Optional context</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                If you want, add recent lab hints such as your potassium level or a daily sodium cap, and any notes.
+                Never required.
+              </p>
+            </li>
+            <li class="card bg-cream-50 dark:bg-brand-900 dark:ring-white/10">
+              <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-700 text-lg font-bold text-white" aria-hidden="true">4</span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Instant output</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Get a personalized meal plan with estimated carbs, fiber, protein, sodium, potassium and phosphorus per
+                meal, and a grocery checklist to tick off in the store aisle.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ======================= FEATURES ======================= -->
+      <section id="features" class="section" aria-labelledby="features-title">
+        <div class="container-page">
+          <p class="eyebrow dark:text-brand-300">Features</p>
+          <h2 id="features-title" class="section-title dark:text-white">Less guesswork at the kitchen table and in the store.</h2>
+
+          <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <li class="card dark:bg-brand-800 dark:ring-white/10">
+              <span class="icon-badge dark:bg-brand-900 dark:text-brand-200" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 4h16v16H4z" /><path d="M8 9h8M8 13h8M8 17h4" /></svg>
+              </span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Meal plans with kidney-aware estimates</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Every meal shows estimated carbs, fiber, protein, sodium, potassium and phosphorus, so you can see the
+                numbers that matter to kidney eating at a glance.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-800 dark:ring-white/10">
+              <span class="icon-badge dark:bg-brand-900 dark:text-brand-200" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 5h2l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19 8H6" /><circle cx="9" cy="20" r="1" /><circle cx="17" cy="20" r="1" /></svg>
+              </span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Smart grocery checklist</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                One list for the whole plan, grouped by store department. Tick items off as you walk the aisles.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-800 dark:ring-white/10">
+              <span class="icon-badge dark:bg-brand-900 dark:text-brand-200" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="8" cy="12" r="5" /><circle cx="16" cy="12" r="5" /></svg>
+              </span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Kidney, diabetes and blood pressure together</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Advice for these conditions can pull in different directions. RenalTracker balances them in one plan,
+                and when they conflict, kidney limits take priority.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-800 dark:ring-white/10">
+              <span class="icon-badge dark:bg-brand-900 dark:text-brand-200" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M21 12a9 9 0 1 1-3-6.7" /><path d="M21 4v5h-5" /></svg>
+              </span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Remembers your profile</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Your answers are saved, so next week's plan is one tap instead of starting the questionnaire again.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-800 dark:ring-white/10 md:col-span-2 lg:col-span-1">
+              <span class="icon-badge dark:bg-brand-900 dark:text-brand-200" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="7" y="2" width="10" height="20" rx="2.5" /><path d="M11 18h2" /></svg>
+              </span>
+              <h3 class="mt-4 text-xl font-bold dark:text-white">Works on your phone</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Designed for mobile first, and you can add it to your iPhone home screen for quick access in the store.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ======================= SAFETY ======================= -->
+      <section id="safety" class="section bg-brand-50 dark:bg-brand-800/60" aria-labelledby="safety-title">
+        <div class="container-page">
+          <p class="eyebrow dark:text-brand-300">Built with safety in mind</p>
+          <h2 id="safety-title" class="section-title dark:text-white">What that means, and what it does not.</h2>
+          <p class="section-lede dark:text-brand-100">
+            RenalTracker is a planning aid. It does not replace your doctor or renal dietitian.
+          </p>
+
+          <ul class="mt-10 grid gap-6 md:grid-cols-2">
+            <li class="card dark:bg-brand-900 dark:ring-white/10">
+              <h3 class="text-xl font-bold dark:text-white">Kidney limits always come first</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                If kidney guidance conflicts with diabetes or blood pressure guidance, the plan follows the kidney
+                limits.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-900 dark:ring-white/10">
+              <h3 class="text-xl font-bold dark:text-white">Plans are AI-generated estimates</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Meals and nutrition numbers are generated by AI. They are estimates, they can be wrong, and they have
+                not been reviewed by a dietitian.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-900 dark:ring-white/10">
+              <h3 class="text-xl font-bold dark:text-white">Your care team has the final say</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                Check any plan with your doctor or renal dietitian before you change how you eat, especially if you take
+                medicines or have recent lab results to consider.
+              </p>
+            </li>
+            <li class="card dark:bg-brand-900 dark:ring-white/10">
+              <h3 class="text-xl font-bold dark:text-white">You stay in control</h3>
+              <p class="mt-2 leading-relaxed text-brand-800/90 dark:text-brand-100">
+                You choose what to share. Lab hints and notes are optional, and you decide what to cook and buy.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ======================= COMING SOON / WAITLIST ======================= -->
+      <!--
+        TODO(placeholder): No waitlist is wired up. When one exists, replace the disabled button below with a real
+        form (email field + endpoint) and update the hero CTA copy. Nothing on this page submits or stores data.
+      -->
+      <section id="coming-soon" class="section" aria-labelledby="soon-title">
+        <div class="container-page">
+          <div class="mx-auto max-w-2xl rounded-3xl bg-brand-800 p-8 text-center text-white shadow-lg sm:p-12 dark:bg-brand-800 dark:ring-1 dark:ring-white/10">
+            <p class="text-sm font-semibold uppercase tracking-wide text-brand-200">Not live yet</p>
+            <h2 id="soon-title" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">RenalTracker is coming soon.</h2>
+            <p class="mt-4 text-lg leading-relaxed text-brand-100">
+              We are still building. A waitlist will open here before launch.
+            </p>
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              class="mt-8 inline-flex cursor-not-allowed items-center justify-center rounded-full border-2 border-brand-300 px-8 py-4 text-lg font-semibold text-brand-100"
+            >
+              Waitlist opening soon
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= DISCLAIMER ======================= -->
+      <section id="disclaimer" class="pb-16 sm:pb-24" aria-labelledby="disclaimer-title">
+        <div class="container-page">
+          <div role="note" class="mx-auto max-w-3xl rounded-3xl border-2 border-accent-300 bg-accent-50 p-6 sm:p-8 dark:border-accent-300 dark:bg-brand-800">
+            <h2 id="disclaimer-title" class="text-xl font-bold text-accent-900 dark:text-accent-100">Important health disclaimer</h2>
+            <p class="mt-3 text-lg leading-relaxed text-brand-900 dark:text-brand-50">
+              RenalTracker's meal suggestions and nutrition estimates are AI-generated and have not been verified by a
+              renal dietitian. Consult your care team before changing your diet.
+            </p>
+            <p class="mt-3 leading-relaxed text-brand-800/90 dark:text-brand-100">
+              RenalTracker does not diagnose, treat or provide medical advice. If you think you are having a medical
+              emergency, call your local emergency number.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-brand-100 bg-white dark:border-brand-700 dark:bg-brand-900">
+      <div class="container-page py-10 text-center text-sm text-brand-800/80 dark:text-brand-200">
+        <p class="font-semibold text-brand-800 dark:text-white">RenalTracker</p>
+        <p class="mt-1">&copy; 2026 RenalTracker. All rights reserved. Draft page, not yet published.</p>
+        <p class="mt-1">AI-generated estimates only. Not a substitute for medical advice from your care team.</p>
+      </div>
+    </footer>
+  </body>
+</html>
