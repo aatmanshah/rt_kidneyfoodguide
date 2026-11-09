@@ -14,10 +14,11 @@
 
     <!--
       KEEP THIS POLICY IN SYNC WITH THE PRODUCT. Section 3 says plans (answers, generated plan, grocery
-      list) are saved in the meal_plans table, kept until deleted (no automatic expiry), retrievable by
-      anyone holding the plan ID, and deletable via the in-app "Delete all my data" button (plans created
-      in that browser) or by emailing the plan ID (within 30 days). If retention, sharing, accounts,
-      cookies or analytics change, update the text before shipping.
+      list) are saved in the meal_plans table, kept until the user deletes them or requests deletion
+      (no expiry and no stated response time), retrievable by anyone holding the plan ID, and deletable
+      via the in-app "Delete all my data" button (plans created in that browser) or by emailing the plan
+      ID. Section 12 sets the minimum age at 18. If retention, sharing, accounts, cookies or analytics
+      change, update the text before shipping.
     -->
     <link rel="stylesheet" href="/renaltracker/renaltracker.css" />
 
@@ -117,9 +118,9 @@
 
             <p class="mt-3">Each saved plan is identified by a long, randomly generated plan ID. Anyone who has a plan's ID can retrieve that plan, including the health and dietary information used to create it, so keep plan IDs private.</p>
 
-            <p class="mt-3">How long we keep plans: we keep saved plans until they are deleted. We do not currently delete them automatically after a set period.</p>
+            <p class="mt-3">How long we keep plans: we keep saved plans until you delete them or submit a deletion request.</p>
 
-            <p class="mt-3">How to delete your data: use the "Delete all my data" button, available on every screen of the app. It permanently deletes from our servers every plan created in your browser, and erases your saved answers, plan IDs, and grocery check marks from your browser. For plans created on another device or browser, or after you cleared your browser data, email <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900 dark:text-brand-100 dark:hover:text-white">support@renaltracker.com</a> with the plan ID (shown on the plan screen), and we will delete the plan within 30 days.</p>
+            <p class="mt-3">How to delete your data: use the "Delete all my data" button, available on every screen of the app. It permanently deletes from our servers every plan created in your browser, and erases your saved answers, plan IDs, and grocery check marks from your browser. For plans created on another device or browser, or after you cleared your browser data, email <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900 dark:text-brand-100 dark:hover:text-white">support@renaltracker.com</a> with the plan ID (shown on the plan screen) to request that we delete the plan.</p>
 
             <p class="mt-3">Some third-party technology providers involved in processing requests, such as AI and hosting providers, may handle or temporarily retain information as necessary to provide their services. Their retention and processing practices are governed by their applicable privacy policies, configurations, and contractual terms.</p>
 
@@ -253,7 +254,7 @@
 
             <h2 class="mt-10 text-2xl font-bold text-brand-900 dark:text-white">12. Children's Privacy</h2>
 
-            <p class="mt-3">RenalTracker is not intended for children under 16 years of age. We do not knowingly collect personal information directly from children under 16 without the consent required by applicable law.</p>
+            <p class="mt-3">RenalTracker is not intended for anyone under 18 years of age. We do not knowingly collect personal information from anyone under 18 without the consent required by applicable law.</p>
 
             <h2 class="mt-10 text-2xl font-bold text-brand-900 dark:text-white">13. Third-Party Websites and Services</h2>
 
