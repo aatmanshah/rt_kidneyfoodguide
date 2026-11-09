@@ -12,6 +12,7 @@ export default defineConfig({
         fallrecipes: resolve(__dirname, "fallrecipes/index.html"),
         fallrecipesThankYou: resolve(__dirname, "fallrecipes/thank-you/index.html"),
         renaltracker: resolve(__dirname, "renaltracker/index.html"),
+        renaltrackerPrivacy: resolve(__dirname, "renaltracker/privacy/index.html"),
       },
     },
   },
