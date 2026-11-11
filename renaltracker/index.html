@@ -16,7 +16,8 @@
     <link rel="apple-touch-icon" href="/images/renaltracker-favicon.png" />
 
     <!--
-      Intentionally NO analytics, tag manager, third-party fonts or form endpoints on this draft.
+      Intentionally NO analytics, tag manager or third-party fonts on this draft. The only network call is the
+      optional waitlist POST to our own API (renaltracker/waitlist.js), and only when VITE_WAITLIST_URL is set.
       Fonts fall back to the system UI font stack from src/input.css.
     -->
     <link rel="stylesheet" href="/renaltracker/renaltracker.css" />
@@ -76,7 +77,7 @@
               with estimated nutrition for each meal, plus one grocery list sorted by store department.
             </p>
             <div class="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-              <a href="#coming-soon" class="btn-primary !bg-accent-700 hover:!bg-accent-800">Waitlist coming soon</a>
+              <a href="#coming-soon" data-waitlist-cta class="btn-primary !bg-accent-700 hover:!bg-accent-800">Waitlist coming soon</a>
               <a href="#how-it-works" class="btn-secondary dark:!border-brand-600 dark:!bg-transparent dark:!text-brand-50 dark:hover:!bg-brand-800">See how it works</a>
             </div>
             <p class="mt-5 max-w-xl text-sm leading-relaxed text-brand-800/80 dark:text-brand-200">
@@ -297,25 +298,82 @@
 
       <!-- ======================= COMING SOON / WAITLIST ======================= -->
       <!--
-        TODO(placeholder): No waitlist is wired up. When one exists, replace the disabled button below with a real
-        form (email field + endpoint) and update the hero CTA copy. Nothing on this page submits or stores data.
+        Waitlist. The form is wired to pod_processor (POST /public/waitlist) through renaltracker/waitlist.js, but it is
+        dormant until the site is built with BOTH VITE_WAITLIST_URL and VITE_WAITLIST_TOKEN (see .env.example). Without
+        them, the "Waitlist opening soon" fallback below stays visible and nothing on this page submits or stores data.
+        What is sent: the email, a fixed source label, an empty honeypot field and a bearer token (which is public: it is
+        in the JS bundle). No health data, no cookies, no stored ids. The signup goes straight to Encharge; no database,
+        and no consent record is kept (the notice under the button is not recorded).
       -->
       <section id="coming-soon" class="section" aria-labelledby="soon-title">
         <div class="container-page">
-          <div class="mx-auto max-w-2xl rounded-3xl bg-brand-800 p-8 text-center text-white shadow-lg sm:p-12 dark:bg-brand-800 dark:ring-1 dark:ring-white/10">
+          <div class="mx-auto max-w-2xl rounded-3xl bg-brand-800 p-6 text-center text-white shadow-lg sm:p-12 dark:bg-brand-800 dark:ring-1 dark:ring-white/10">
             <p class="text-sm font-semibold uppercase tracking-wide text-brand-200">Not live yet</p>
             <h2 id="soon-title" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">RenalTracker is coming soon.</h2>
-            <p class="mt-4 text-lg leading-relaxed text-brand-100">
-              We are still building. A waitlist will open here before launch.
-            </p>
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              class="mt-8 inline-flex cursor-not-allowed items-center justify-center rounded-full border-2 border-brand-300 px-8 py-4 text-lg font-semibold text-brand-100"
-            >
-              Waitlist opening soon
-            </button>
+
+            <div data-waitlist-fallback>
+              <p class="mt-4 text-lg leading-relaxed text-brand-100">
+                We are still building. A waitlist will open here before launch.
+              </p>
+              <button
+                type="button"
+                disabled
+                aria-disabled="true"
+                class="mt-8 inline-flex cursor-not-allowed items-center justify-center rounded-full border-2 border-brand-300 px-8 py-4 text-lg font-semibold text-brand-100"
+              >
+                Waitlist opening soon
+              </button>
+            </div>
+
+            <form data-waitlist-form hidden novalidate class="text-left" aria-describedby="waitlist-intro waitlist-notice">
+              <p id="waitlist-intro" class="mt-4 text-center text-lg leading-relaxed text-brand-100">
+                Join the waitlist and we will email you when RenalTracker opens.
+              </p>
+
+              <label for="waitlist-email" class="mt-8 block text-sm font-semibold text-brand-100">Email address</label>
+              <input
+                id="waitlist-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                autocapitalize="off"
+                spellcheck="false"
+                required
+                maxlength="254"
+                aria-describedby="waitlist-status"
+                class="mt-2 block w-full rounded-xl border-2 border-brand-300 bg-white px-4 py-3 text-lg text-brand-900 placeholder:text-brand-800/60 aria-[invalid=true]:border-red-400"
+                placeholder="name@email.com"
+              />
+
+              <!-- Honeypot: real visitors never see or fill this. A filled value is treated as a bot. -->
+              <div aria-hidden="true" class="absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+                <label for="waitlist-website">Website (leave this empty)</label>
+                <input id="waitlist-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <p
+                id="waitlist-status"
+                data-waitlist-status
+                role="status"
+                aria-live="polite"
+                class="mt-4 min-h-[1.5rem] text-center text-base font-medium"
+              ></p>
+
+              <button
+                type="submit"
+                data-waitlist-submit
+                class="btn-primary mt-3 w-full !px-4 !bg-accent-700 hover:!bg-accent-800 disabled:cursor-wait disabled:opacity-70"
+              >
+                Join the waitlist
+              </button>
+
+              <p id="waitlist-notice" class="mt-4 text-center text-sm leading-snug text-brand-200">
+                By joining, you agree to get an email when RenalTracker opens and occasional updates. Unsubscribe any time.
+                Emails come from Catalyst Forge LLC. Read our
+                <a href="/renaltracker/privacy/" class="font-medium underline underline-offset-2 hover:text-white">privacy policy</a>.
+              </p>
+            </form>
           </div>
         </div>
       </section>
@@ -348,5 +406,6 @@
         </p>
       </div>
     </footer>
+    <script type="module" src="/renaltracker/waitlist.js"></script>
   </body>
 </html>
