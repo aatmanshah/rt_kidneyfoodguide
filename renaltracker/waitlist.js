@@ -93,6 +93,7 @@ function init() {
     }
 
     submit.disabled = true;
+    submit.style.cursor = "wait"; // busy pointer only while sending; once done the button is just inactive
     show("Sending...", "ok");
 
     const controller = new AbortController();
@@ -133,6 +134,7 @@ function init() {
       show(err && err.name === "AbortError" ? MESSAGES.generic : MESSAGES.offline, "error");
     } finally {
       clearTimeout(timer);
+      submit.style.cursor = "";
       if (submit.textContent !== DONE_LABEL) submit.disabled = false;
     }
   });
