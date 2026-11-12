@@ -1,3 +1,7 @@
 node_modules
 dist
 .DS_Store
+
+# Local env files (public build-time settings only, but keep them out of commits)
+.env.local
+.env.*.local
