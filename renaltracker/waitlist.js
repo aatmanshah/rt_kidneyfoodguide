@@ -4,7 +4,7 @@
 // VITE_WAITLIST_TOKEN (see .env.example). Otherwise the "Waitlist opening soon" fallback in index.html stays
 // visible and nothing is ever submitted.
 //
-// Sends ONE request: POST <VITE_WAITLIST_URL> with { first_name, last_name, email, source, website } and an
+// Sends ONE request: POST <VITE_WAITLIST_URL> with { name, email, source, website } and an
 // "Authorization: Bearer <VITE_WAITLIST_TOKEN>" header. No health data.
 //
 // THE TOKEN IS NOT A STRONG SECRET. Vite inlines VITE_* values into this JavaScript bundle, so it is visible in
@@ -20,10 +20,10 @@ const SOURCE = "renaltracker_landing";
 const TIMEOUT_MS = 15000;
 
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const MAX_NAME_LENGTH = 50;
+const MAX_NAME_LENGTH = 100;
 
 const MESSAGES = {
-  name: "Please enter your first and last name.",
+  name: "Please enter your name.",
   email: "Please enter a valid email address.",
   rejected: "We could not add that name or email address. Please check them and try again.",
   limited: "Too many attempts. Please wait a minute and try again.",
@@ -44,8 +44,7 @@ function init() {
   const status = form.querySelector("[data-waitlist-status]");
   const submit = form.querySelector("[data-waitlist-submit]");
   const email = form.elements.email;
-  const firstName = form.elements.first_name;
-  const lastName = form.elements.last_name;
+  const fullName = form.elements.name;
   const honeypot = form.elements.website;
 
   if (fallback) fallback.hidden = true;
@@ -57,7 +56,7 @@ function init() {
     status.className = "mt-4 min-h-[1.5rem] text-center text-base font-medium " + (kind === "ok" ? "text-brand-100" : "text-red-300");
   }
 
-  const fields = [firstName, lastName, email];
+  const fields = [fullName, email];
 
   function setInvalid(invalid, ...which) {
     for (const field of which.length ? which : fields) {
@@ -68,7 +67,7 @@ function init() {
 
   for (const field of fields) field.addEventListener("input", () => setInvalid(false, field));
 
-  const tidyName = (field) => field.value.replace(/\s+/g, " ").trim();
+  const tidyName = () => fullName.value.replace(/\s+/g, " ").trim();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -76,15 +75,13 @@ function init() {
 
     // Stray spaces ("jane @gmail.com") are never part of an address; the server also tidies common typos.
     const value = email.value.replace(/\s+/g, "");
-    const first = tidyName(firstName);
-    const last = tidyName(lastName);
+    const name = tidyName();
     setInvalid(false);
 
-    const badNames = [firstName, lastName].filter((field) => !tidyName(field) || tidyName(field).length > MAX_NAME_LENGTH);
-    if (badNames.length) {
-      setInvalid(true, ...badNames);
+    if (!name || name.length > MAX_NAME_LENGTH) {
+      setInvalid(true, fullName);
       show(MESSAGES.name, "error");
-      badNames[0].focus();
+      fullName.focus();
       return;
     }
 
@@ -105,8 +102,7 @@ function init() {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: "Bearer " + TOKEN },
         body: JSON.stringify({
-          first_name: first,
-          last_name: last,
+          name,
           email: value,
           source: SOURCE,
           website: honeypot ? honeypot.value : "",

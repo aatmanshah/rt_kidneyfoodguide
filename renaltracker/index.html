@@ -330,32 +330,17 @@
                 Join the waitlist and we will email you when RenalTracker opens.
               </p>
 
-              <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label for="waitlist-first-name" class="block text-sm font-semibold text-brand-100">First name</label>
-                  <input
-                    id="waitlist-first-name"
-                    name="first_name"
-                    type="text"
-                    autocomplete="given-name"
-                    required
-                    maxlength="50"
-                    class="mt-2 block w-full rounded-xl border-2 border-brand-300 bg-white px-4 py-3 text-lg text-brand-900 aria-[invalid=true]:border-red-400"
-                  />
-                </div>
-                <div>
-                  <label for="waitlist-last-name" class="block text-sm font-semibold text-brand-100">Last name</label>
-                  <input
-                    id="waitlist-last-name"
-                    name="last_name"
-                    type="text"
-                    autocomplete="family-name"
-                    required
-                    maxlength="50"
-                    class="mt-2 block w-full rounded-xl border-2 border-brand-300 bg-white px-4 py-3 text-lg text-brand-900 aria-[invalid=true]:border-red-400"
-                  />
-                </div>
-              </div>
+              <label for="waitlist-name" class="mt-8 block text-sm font-semibold text-brand-100">Name</label>
+              <input
+                id="waitlist-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                maxlength="100"
+                class="mt-2 block w-full rounded-xl border-2 border-brand-300 bg-white px-4 py-3 text-lg text-brand-900 placeholder:text-brand-800/60 aria-[invalid=true]:border-red-400"
+                placeholder="First and last name"
+              />
 
               <label for="waitlist-email" class="mt-4 block text-sm font-semibold text-brand-100">Email address</label>
               <input
