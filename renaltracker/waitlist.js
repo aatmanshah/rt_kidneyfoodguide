@@ -4,7 +4,7 @@
 // VITE_WAITLIST_TOKEN (see .env.example). Otherwise the "Waitlist opening soon" fallback in index.html stays
 // visible and nothing is ever submitted.
 //
-// Sends ONE request: POST <VITE_WAITLIST_URL> with { email, source, website } and an
+// Sends ONE request: POST <VITE_WAITLIST_URL> with { name, email, source, website } and an
 // "Authorization: Bearer <VITE_WAITLIST_TOKEN>" header. No health data.
 //
 // THE TOKEN IS NOT A STRONG SECRET. Vite inlines VITE_* values into this JavaScript bundle, so it is visible in
@@ -20,10 +20,12 @@ const SOURCE = "renaltracker_landing";
 const TIMEOUT_MS = 15000;
 
 const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const MAX_NAME_LENGTH = 100;
 
 const MESSAGES = {
+  name: "Please enter your name.",
   email: "Please enter a valid email address.",
-  rejected: "That email address could not be added. Please check it and try again.",
+  rejected: "We could not add that name or email address. Please check them and try again.",
   limited: "Too many attempts. Please wait a minute and try again.",
   retry: "We could not add you to the list just now. Please try again in a minute.",
   generic: "Something went wrong on our side. Please try again in a few minutes.",
@@ -42,6 +44,7 @@ function init() {
   const status = form.querySelector("[data-waitlist-status]");
   const submit = form.querySelector("[data-waitlist-submit]");
   const email = form.elements.email;
+  const fullName = form.elements.name;
   const honeypot = form.elements.website;
 
   if (fallback) fallback.hidden = true;
@@ -53,12 +56,18 @@ function init() {
     status.className = "mt-4 min-h-[1.5rem] text-center text-base font-medium " + (kind === "ok" ? "text-brand-100" : "text-red-300");
   }
 
-  function setInvalid(invalid) {
-    if (invalid) email.setAttribute("aria-invalid", "true");
-    else email.removeAttribute("aria-invalid");
+  const fields = [fullName, email];
+
+  function setInvalid(invalid, ...which) {
+    for (const field of which.length ? which : fields) {
+      if (invalid) field.setAttribute("aria-invalid", "true");
+      else field.removeAttribute("aria-invalid");
+    }
   }
 
-  email.addEventListener("input", () => setInvalid(false));
+  for (const field of fields) field.addEventListener("input", () => setInvalid(false, field));
+
+  const tidyName = () => fullName.value.replace(/\s+/g, " ").trim();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -66,7 +75,15 @@ function init() {
 
     // Stray spaces ("jane @gmail.com") are never part of an address; the server also tidies common typos.
     const value = email.value.replace(/\s+/g, "");
+    const name = tidyName();
     setInvalid(false);
+
+    if (!name || name.length > MAX_NAME_LENGTH) {
+      setInvalid(true, fullName);
+      show(MESSAGES.name, "error");
+      fullName.focus();
+      return;
+    }
 
     if (!EMAIL_SHAPE.test(value) || value.length > 254) {
       setInvalid(true);
@@ -85,6 +102,7 @@ function init() {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: "Bearer " + TOKEN },
         body: JSON.stringify({
+          name,
           email: value,
           source: SOURCE,
           website: honeypot ? honeypot.value : "",
@@ -101,7 +119,7 @@ function init() {
         return;
       }
       if (response.status === 422) {
-        setInvalid(true);
+        setInvalid(true, email);
         show(MESSAGES.rejected, "error");
       } else if (response.status === 429) {
         show(MESSAGES.limited, "error");
