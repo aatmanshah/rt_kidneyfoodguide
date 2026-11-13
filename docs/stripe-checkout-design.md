@@ -98,12 +98,12 @@ buttons carry `data-checkout-product="<slug>"`, and a thank-you page (or one sha
    - Switch the 4 CTAs on `/fallrecipes/`, remove the public PDF, and change the campaign email's P.S. link from
      Zylvie to `/fallrecipes/`.
    - Keep the Zylvie product live but unlinked for about 2 weeks as a fallback.
-3. **Food List Book (physical).** Add `shipping_address_collection` (US) and a shipping rate on the session.
+3. **Food List Book (physical).** Detailed build plan: `.claude/skills/new-product-page/references/physical-products.md`. Add `shipping_address_collection` (US) and a shipping rate on the session.
    In the webhook, turn the Stripe session into the same order row a Zylvie sale writes, skip sessions already
    in the sheet, and write the pending fulfillment row. The EasyPost worker then runs unchanged. Run one live end-to-end order (a real label) before switching the CTAs on `/book/`.
 4. **More product pages.** New pages copy the `/fallrecipes/` pattern. Bundles are just more `line_items`.
    Coupons are Stripe promotion codes (`allow_promotion_codes` is already on).
-5. **Subscriptions (Defy Dialysis), last.** These are the riskiest to move: there are existing Zylvie
+5. **Subscriptions (Defy Dialysis), last.** Detailed build plan: `.claude/skills/new-product-page/references/subscriptions.md`. These are the riskiest to move: there are existing Zylvie
    subscribers, and the reconciliation worker depends on them. Needs `mode=subscription`, the Stripe customer
    portal, and a plan to move existing subscribers. Separate design.
 
