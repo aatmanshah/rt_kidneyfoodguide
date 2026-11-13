@@ -54,7 +54,8 @@ def main() -> int:
 
     # ---- pod_processor
     if product.kind is not Kind.DIGITAL:
-        bad("kind is not DIGITAL; physical/subscription checkout isn't built yet (design doc phases 3 and 5)")
+        bad("kind is not DIGITAL; physical/subscription checkout isn't built yet: see references/physical-products.md "
+            "or references/subscriptions.md, and update this checker when it is")
     for name in ("landing_path", "thank_you_path"):
         value = getattr(product, name)
         if not (value.startswith("/") and value.endswith("/")):
