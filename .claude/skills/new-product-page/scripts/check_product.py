@@ -8,7 +8,7 @@ Run from the pod_processor folder with its venv:
 
 Checks:
   pod_processor  catalog entry exists, is digital, has the paths/files it needs; the paid file is in
-                 private_downloads/
+                 private_downloads/ and not git-ignored (so it deploys)
   website        landing page exists; every buy button carries data-checkout-product=<slug>; it loads
                  /src/main.js; thank-you page has the hooks src/checkout.js needs, is noindex, and links no file;
                  both pages are in vite.config.js; no copy of the paid file sits in public/
@@ -71,6 +71,12 @@ def main() -> int:
             paid_file = POD / "private_downloads" / product.download_file
             if not paid_file.is_file():
                 bad(f"paid file missing: {paid_file}")
+            else:
+                import subprocess
+                ignored = subprocess.run(["git", "-C", str(POD), "check-ignore", "-q", str(paid_file)]).returncode == 0
+                if ignored:
+                    bad(f"{paid_file.name} is git-ignored, so it won't deploy to Railway; add "
+                        f"'!private_downloads/{paid_file.name}' to pod_processor/.gitignore")
 
     # ---- website: landing page
     landing = page_file(product.landing_path)

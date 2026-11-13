@@ -71,7 +71,11 @@ Product(
 ),
 ```
 
-Copy the PDF into `pod_processor/private_downloads/`. That folder is git-ignored on purpose. **Never** put a
+Copy the PDF into `pod_processor/private_downloads/` and un-ignore it by name in pod_processor's `.gitignore`.
+Add a line `!private_downloads/<file>.pdf` under the existing `private_downloads/*` rule. The PDFs are committed
+to the private pod_processor repo so they deploy to Railway with the code. The folder is ignored by default so a
+stray file never slips in. If the file is over about 50 MB, stop and tell the user: GitHub warns at 50 MB and
+rejects files over 100 MB, so a large file needs a Railway volume or object storage instead. **Never** put a
 paid file in the website's `public/` folder: everything there is downloadable by anyone with the URL, which is
 exactly the hole the old Zylvie setup had.
 
@@ -161,7 +165,6 @@ trouble), say so plainly rather than implying it passed.
 - In Stripe **live** mode: create the Product + Price with the **same lookup key**.
 - Live webhook endpoint already exists after the first product, so nothing new is needed per product. Confirm it
   sends `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
-- Deploy pod_processor with the new catalog entry, and put the PDF where Railway can serve it (still an open
-  question in the design doc).
+- Deploy pod_processor with the new catalog entry and the committed PDF.
 - Deploy the website. If migrating from Zylvie, keep the Zylvie product live but unlinked for about 2 weeks,
   then point any email links at the new landing page.

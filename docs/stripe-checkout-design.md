@@ -114,15 +114,17 @@ buttons carry `data-checkout-product="<slug>"`, and a thank-you page (or one sha
 | `STRIPE_CHECKOUT_SECRET_KEY` | Secret key for checkout (`sk_test_...` locally). Kept separate from the existing `STRIPE_API_KEY`, which the reconciliation worker uses with the live account. |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` signing secret of the webhook endpoint |
 | `CHECKOUT_SITE_URL` | `https://kidneyfoodguide.com` (`http://localhost:5173` locally); used for return URLs |
-| `CHECKOUT_DOWNLOADS_DIR` | Folder that holds the paid PDFs (default `private_downloads/`, not committed) |
+| `CHECKOUT_DOWNLOADS_DIR` | Folder that holds the paid PDFs. Default `private_downloads/`: each PDF is committed to the private repo, un-ignored by name. Only set this if the files move to a volume. |
 | `SUBSCRIBE_ALLOWED_ORIGINS` | Existing; the checkout routes reuse the same Origin allow-list and CORS |
 
 Website build: `VITE_CHECKOUT_API_URL` (the pod_processor base URL). No Stripe key is needed on the site.
 
 ## Open questions
 
-1. **Where should the paid PDFs live on Railway?** Simplest: commit them to the private pod_processor repo. Or
-   use a Railway volume, or private object storage (S3/R2) with signed URLs.
+1. **Where should the paid PDFs live on Railway?** *Decided (2026-11-13):* commit them to the private
+   pod_processor repo (`private_downloads/`, un-ignored per file), so they deploy with the code. Storage cost is
+   effectively zero; the cost is about 40 MB per book in git history. Revisit with a Railway volume or private
+   object storage (S3/R2) if a file nears GitHub's 100 MB limit or the books add up to several hundred MB.
 2. **How long should a download link work?** The demo allows any paid session id. That id is a long random
    string, but it ends up in the buyer's browser history and email. A signed, expiring link plus "re-send my
    link" is better before launch.
