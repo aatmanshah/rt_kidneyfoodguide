@@ -29,7 +29,7 @@ Set the env in the shell rather than editing `.env`, which also holds live setti
 cd /Users/aatman/Documents/Documents/Coding_Projects/CatalystForge/pod_processor
 KEY=$(venv/bin/python -c 'from dotenv import dotenv_values; print(dotenv_values(".env")["STRIPE_CHECKOUT_TEST_KEY"])')
 case "$KEY" in sk_test_*|rk_test_*) ;; *) echo "not a sandbox key"; exit 1;; esac
-STRIPE_CHECKOUT_SECRET_KEY="$KEY" \
+STRIPE_CHECKOUT_RESTRICTED_KEY="$KEY" \
 CHECKOUT_SITE_URL=http://localhost:5174 \
 SUBSCRIBE_ALLOWED_ORIGINS=http://localhost:5174 \
 STRIPE_WEBHOOK_SECRET="$(stripe listen --print-secret --api-key "$KEY")" \

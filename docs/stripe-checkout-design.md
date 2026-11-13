@@ -111,7 +111,7 @@ buttons carry `data-checkout-product="<slug>"`, and a thank-you page (or one sha
 
 | Var | Purpose |
 |---|---|
-| `STRIPE_CHECKOUT_SECRET_KEY` | Secret key for checkout (`sk_test_...` locally). Kept separate from the existing `STRIPE_API_KEY`, which the reconciliation worker uses with the live account. |
+| `STRIPE_CHECKOUT_RESTRICTED_KEY` | Restricted key for checkout: `rk_live_...` in production, with only Checkout Sessions: Write and Prices: Read. Locally the sandbox key (`sk_test_...`) works too. Kept separate from the existing `STRIPE_API_KEY`, which the reconciliation worker uses with the live account. |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` signing secret of the webhook endpoint |
 | `CHECKOUT_SITE_URL` | `https://kidneyfoodguide.com` (`http://localhost:5173` locally); used for return URLs |
 | `CHECKOUT_DOWNLOADS_DIR` | Folder that holds the paid PDFs. Default `private_downloads/`: each PDF is committed to the private repo, un-ignored by name. Only set this if the files move to a volume. |
