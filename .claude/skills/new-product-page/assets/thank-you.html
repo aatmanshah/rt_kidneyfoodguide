@@ -1,0 +1,146 @@
+<!doctype html>
+<!--
+  TEMPLATE for a product's thank-you page (new-product-page skill). Saved as <path>/thank-you/index.html.
+  Replace every {{PLACEHOLDER}} and delete this comment. src/checkout.js relies on the data-order-* hooks,
+  data-download-link and data-order-email: keep them exactly. Never link a file directly from this page;
+  the download URL is filled in by checkout.js after Stripe confirms the payment.
+-->
+<html lang="en">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MTFXZG4B');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your Download — {{PRODUCT_NAME}}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/src/input.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WW0FSBP4H1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-WW0FSBP4H1');
+    </script>
+  </head>
+  <body class="{{THEME_CLASS}}">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MTFXZG4B"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header class="border-b border-brand-100">
+      <div class="container-page flex items-center justify-center py-5">
+        <a href="/" class="flex items-center gap-2 text-lg font-bold text-brand-800">
+          <img src="/icons/favicon.svg" alt="" width="32" height="32" class="rounded-lg" />
+          Kidney Food Guide
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container-page">
+          <div class="card mx-auto max-w-xl text-center">
+
+            <!-- Loading state while src/checkout.js checks the order with Stripe -->
+            <div data-order-checking>
+              <div class="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-brand-200 border-t-brand-600" aria-hidden="true"></div>
+              <p class="mt-6 text-lg text-brand-800/70">One moment while we prepare your download&hellip;</p>
+            </div>
+
+            <!-- Without JavaScript the order can't be checked; never link the file here -->
+            <noscript>
+              <style>[data-order-checking] { display: none; }</style>
+              <h1 class="text-2xl font-bold text-brand-900 sm:text-3xl">Thank You for Your Order!</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                Please turn on JavaScript and refresh this page to get your download, or email
+                <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2">support@renaltracker.com</a>
+                and we'll send your copy.
+              </p>
+            </noscript>
+
+            <!-- Paid order -->
+            <div data-order-found hidden>
+              <span class="icon-badge mx-auto !h-16 !w-16">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <h1 class="mt-5 text-2xl font-bold text-brand-900 sm:text-3xl">Thank You for Your Order!</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                Your copy of <strong>{{PRODUCT_NAME}}</strong> is ready — {{SHORT_DESCRIPTION}}, yours to keep.
+              </p>
+              <a href="#" download data-download-link class="btn-primary mt-8">
+                Download Your PDF
+              </a>
+              <p class="mt-4 text-sm text-brand-800/60">
+                Save this page or the file now — we recommend downloading it to your device rather
+                than relying on this link later.
+              </p>
+              <p data-order-email hidden class="mt-2 text-sm text-brand-800/60"></p>
+            </div>
+
+            <!-- No order, or not paid -->
+            <div data-order-missing hidden>
+              <span class="icon-badge mx-auto !h-16 !w-16 !bg-brand-50 !text-brand-500">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <line x1="12" y1="8" x2="12" y2="13" />
+                  <line x1="12" y1="16" x2="12" y2="16.01" />
+                </svg>
+              </span>
+              <h1 class="mt-5 text-2xl font-bold text-brand-900 sm:text-3xl">We Couldn't Find Your Order</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                This page is only for customers arriving right after checkout. If you just
+                purchased {{PRODUCT_NAME}}, email
+                <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2">support@renaltracker.com</a>
+                with the email address you used and we'll send your copy.
+              </p>
+              <a href="/{{PATH}}/" class="btn-primary mt-8">{{CTA_LABEL}}</a>
+            </div>
+
+            <!-- The check itself failed: never tell a paying customer their order doesn't exist -->
+            <div data-order-error hidden>
+              <h1 class="text-2xl font-bold text-brand-900 sm:text-3xl">We Couldn't Check Your Order Just Now</h1>
+              <p class="mt-3 text-lg text-brand-800/80">
+                If you just paid, your order is safe. Please refresh this page in a minute. Still stuck? Email
+                <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2">support@renaltracker.com</a>
+                and we'll send your copy.
+              </p>
+              <button type="button" onclick="location.reload()" class="btn-primary mt-8">Refresh</button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-brand-100">
+      <div class="container-page py-10 text-center text-sm text-brand-800/70">
+        <p>&copy; 2026 Kidney Food Guide, a RenalTracker product. All rights reserved.</p>
+        <p class="mt-1">
+          Questions about your order? Email
+          <a href="mailto:support@renaltracker.com" class="font-medium text-brand-700 underline underline-offset-2 hover:text-brand-900">support@renaltracker.com</a>.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
