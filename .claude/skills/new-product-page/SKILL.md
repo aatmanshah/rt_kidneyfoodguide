@@ -1,39 +1,96 @@
 ---
 name: new-product-page
-description: Create a new product landing page on kidneyfoodguide.com together with its Stripe checkout (pod_processor catalog entry, sandbox Stripe Product/Price with a lookup key, buy buttons, a thank-you page that checks the order with Stripe, a paid download served by pod_processor, Vite build entries). Use this whenever the user wants to sell something new on kidneyfoodguide.com, add a product, cookbook, ebook, guide or PDF page, move a product off Zylvie onto our own checkout, launch a seasonal recipe book, or asks for "a page like /fallrecipes" for another product, even if they don't mention Stripe or checkout.
+description: Add a new product to kidneyfoodguide.com with its own Stripe checkout, the way Harvest Recipes (/fallrecipes) was built and launched. Covers PDF cookbooks and guides end to end (pod_processor catalog entry, Stripe Product/Price with a lookup key, landing and thank-you pages from templates, the paid download, Vite entries, sandbox testing, launch runbook), and carries the plan and context for physical products (the Food List Book, anything shipped) and subscriptions (the monthly Defy Dialysis newsletter, memberships). Use this whenever the user wants to sell something new on kidneyfoodguide.com, add a product, cookbook, ebook, guide, PDF, print book or newsletter page, move a product off Zylvie onto our own checkout, launch a seasonal recipe book, set up a subscription or recurring product, or asks for "a page like /fallrecipes", even if they don't mention Stripe or checkout.
 ---
 
 # New product page + Stripe checkout
 
-Every product on kidneyfoodguide.com follows one pattern so they all behave the same and the checkout stays
-safe. The pattern was built for Harvest Recipes (`/fallrecipes/`). The design and its reasons are in
-`docs/stripe-checkout-design.md` in this repo. Read that doc if anything below is unclear, rather than inventing
-a variation.
+Every product on kidneyfoodguide.com follows one pattern, so they all behave the same and the checkout stays
+safe. The pattern was built and launched for Harvest Recipes (`/fallrecipes/`) on 2026-11-13, replacing Zylvie,
+which had been producing duplicate charges. The full design is in `docs/stripe-checkout-design.md` in this repo.
+Read it when anything here is unclear, rather than inventing a variation.
 
-Two repos are involved:
+## Step 0: which kind of product is it?
 
-| Repo | Path | What you change there |
+| Kind | Examples | Status | Do this |
+|---|---|---|---|
+| **Digital (PDF)** | cookbooks, guides, seasonal recipe books | **Built and live** | Steps 1 to 7 below, then `references/launch-runbook.md` |
+| **Physical** | the Food List Book (`/book/`), any print item | Not built (phase 3) | Read `references/physical-products.md`. It needs one pod_processor PR first, then the steps below with the changes it lists |
+| **Subscription** | the monthly Defy Dialysis Premium newsletter, memberships | Not built (phase 5) | Read `references/subscriptions.md` **before anything else**: existing subscribers are already Stripe subscriptions that Zylvie created, which changes the plan |
+
+For a physical product or a subscription, tell the user the one-time server work comes first. Offer to do it
+as its own PR, or to make the page now with buttons still pointing at Zylvie. Never push a physical product or
+subscription through the digital flow: the buyer would pay and get nothing.
+
+## How it works
+
+```
+buy button (data-checkout-product="<slug>")
+  └▶ src/checkout.js ─ POST /public/checkout/sessions {product, attemptId} ─▶ pod_processor
+                                         looks up the catalog entry and the Price by lookup key, then creates a hosted Checkout Session
+  └▶ browser goes to Stripe's hosted page (cards, Apple/Google Pay, Link, promo codes)
+  └▶ Stripe returns the buyer to <thank_you_path>?session_id=cs_...
+  └▶ thank-you page ─ GET /public/checkout/sessions/{id} ─▶ paid? product? masked email? download URL?
+  └▶ download link ─ GET /public/checkout/download/{id} ─▶ checks with Stripe again, streams the PDF
+Stripe ─ POST /webhooks/stripe ─▶ verifies the signature, logs the paid order (the hook for exactly-once work:
+                                   Encharge tags, fulfillment rows)
+```
+
+### Code map
+
+| Where | File | What it does |
 |---|---|---|
-| Website (static Vite site) | `/Users/aatman/Documents/Documents/Catalyst Forge LLC/RenalTracker/Website/rt_kidneyfoodguide` | landing page, thank-you page, `vite.config.js`, optional theme CSS |
-| pod_processor (FastAPI) | `/Users/aatman/Documents/Documents/Coding_Projects/CatalystForge/pod_processor` | `checkout/catalog.py` entry, paid file in `private_downloads/` |
+| pod_processor | `checkout/catalog.py` | Products by slug: name, lookup key, kind, paths, PDF. **The browser can never set a price.** |
+| pod_processor | `checkout/stripe_api.py` | Stripe calls: price lookup by key (cached 5 min), session create, retrieve, webhook verify, `is_paid()` |
+| pod_processor | `webhook/checkout_routes.py` | The three public routes; Origin allow-list, per-IP limits, session-id shape check |
+| pod_processor | `webhook/stripe_webhook.py` | Signed webhook; ignores sessions without our `metadata.product` (Zylvie's) |
+| pod_processor | `private_downloads/` | Paid PDFs, committed and un-ignored by name in `.gitignore` |
+| pod_processor | `tests/checkout_test.py`, `tests/catalog_test.py` | Route, webhook and catalog tests |
+| website | `src/checkout.js` | Buy-button clicks and the thank-you order check; on only when `VITE_CHECKOUT_API_URL` is set |
+| website | `src/main.js` | Wires the thank-you page to `verifyOrder()` |
+| website | `<path>/index.html`, `<path>/thank-you/index.html`, `vite.config.js` | The pages, and their build entries |
 
-How a sale works: a buy button (`data-checkout-product="<slug>"`) → `POST /public/checkout/sessions` →
-Stripe's **hosted** checkout page → back to `<thank_you_path>?session_id=...` → the page asks pod_processor
-whether that session was paid → if so, the download link points at pod_processor, which checks with Stripe
-again before streaming the file. `src/checkout.js` already does all the browser work. A new product needs no
-new JavaScript.
+Repos: website at `/Users/aatman/Documents/Documents/Catalyst Forge LLC/RenalTracker/Website/rt_kidneyfoodguide`
+(GitHub `aatmanshah/rt_kidneyfoodguide`), pod_processor at
+`/Users/aatman/Documents/Documents/Coding_Projects/CatalystForge/pod_processor` (`aatmanshah/pod_processor`).
 
-## What is in scope
+### Why it's built this way (decided; don't relitigate without the user)
 
-- **Digital products** (PDF cookbooks, guides): fully supported. This is what the skill is for.
-- **Physical products** (the Food List Book): not built yet. That is phase 3 of the design: shipping
-  address collection plus a fulfillment row from the webhook. If asked for one, say so, and offer to build
-  the page with its buy button still pointing at Zylvie, or to do phase 3 as its own task. Don't fake it with
-  the digital flow; the buyer would pay and get nothing shipped.
-- **Subscriptions / email products**: not built (phase 5). Same answer.
-- **Live mode**: this skill works in the Stripe **sandbox** only. Creating live prices, live webhook endpoints
-  and Railway env vars charges real money and changes production, so list those steps for the user (see
-  "Go-live checklist") and do them only if the user explicitly asks in this conversation.
+- **Hosted Stripe Checkout, not embedded or Elements.** The user chose it as the least work. Stripe maintains
+  the page's polish and accessibility, which matters for 50+ readers.
+- **Server code in pod_processor**, not a server on the static site. It already had Stripe, Encharge, the
+  Sheets/EasyPost fulfillment pipeline and a CORS-enabled public route.
+- **Prices found by lookup key, not product or price ID.** The same code works in sandbox and live, and a price
+  change is a Dashboard action (move the key) with no deploy. One price per product per key; products can share
+  an amount but not a price.
+- **Duplicate-charge protection:** the attempt id is the idempotency key (a double-click returns the same
+  session), a session can only be paid once, and exactly-once work runs only from the signed webhook.
+- **Paid files are never public.** pod_processor serves them only after Stripe confirms payment. The PDFs are
+  committed to the private pod_processor repo; GitHub warns at 50 MB and refuses files over 100 MB.
+- **Webhook only verifies and logs for PDFs.** The user said Encharge tags and Sheets rows aren't needed until
+  email and physical products.
+- **Promo codes:** `allow_promotion_codes` is on; codes are made in the Dashboard with no code change.
+  Pre-applying a code from a link (`?promo=`) isn't built yet; it needs Stripe's `discounts` parameter, which
+  can't be combined with the code box.
+- **Separate keys:** `STRIPE_CHECKOUT_RESTRICTED_KEY` (restricted: Checkout Sessions write, Prices read) for
+  checkout; `STRIPE_API_KEY` stays with the reconciliation worker; `STRIPE_CHECKOUT_TEST_KEY` (sandbox) is for
+  local use only.
+
+## Ground rules
+
+- **Sandbox only.** This skill creates prices and test purchases only in the Stripe sandbox. Check the key
+  prefix before any Stripe call (`sk_test_`/`rk_test_`); `pod_processor/.env` also holds live keys. Anything in
+  live mode (prices, webhook endpoints, Railway env vars, real purchases) is in `references/launch-runbook.md`
+  for the user, and you do it only if the user asks in this conversation.
+- **Production checkout is already switched on.** A new page with tagged buttons goes live as soon as the
+  website deploys. So pod_processor (with the catalog entry) must be merged and deployed **first**. Otherwise
+  the buttons call a server that doesn't know the product, and buyers see "We couldn't open checkout". Open one
+  PR per repo, and say the merge order in both.
+- Branch from an up-to-date `main` in each repo. Commit and open PRs only when the user asks.
+
+## The digital product steps (1 to 7)
+
+These are the full steps for a PDF. The physical and subscription guides start from them and list what changes.
 
 ## 1. Gather the inputs
 
@@ -160,11 +217,21 @@ Fix everything it reports. Then:
 Report what you verified and what you didn't. If the purchase test couldn't run (no sandbox key, port
 trouble), say so plainly rather than implying it passed.
 
-## Go-live checklist (for the user; do these only on explicit request)
+## Going live
 
-- In Stripe **live** mode: create the Product + Price with the **same lookup key**.
-- Live webhook endpoint already exists after the first product, so nothing new is needed per product. Confirm it
-  sends `checkout.session.completed` and `checkout.session.async_payment_succeeded`.
-- Deploy pod_processor with the new catalog entry and the committed PDF.
-- Deploy the website. If migrating from Zylvie, keep the Zylvie product live but unlinked for about 2 weeks,
-  then point any email links at the new landing page.
+Follow `references/launch-runbook.md`: the production URLs and env vars, the merge and deploy order, the
+read-only production checks, and the live purchase test. Give the user the live-mode steps; don't do them unless
+asked.
+
+## Reference files
+
+| File | Read it when |
+|---|---|
+| `references/copy-guidelines.md` | Writing any page copy (audience, health-claim limits, section order) |
+| `references/local-testing.md` | Running the sandbox purchase test locally (API, site, `stripe listen`) |
+| `references/launch-runbook.md` | Taking a product live, or checking production |
+| `references/physical-products.md` | The product ships (phase 3 plan and the existing fulfillment pipeline) |
+| `references/subscriptions.md` | The product is recurring (phase 5 plan, Defy Dialysis context) |
+| `assets/landing-page.html`, `assets/thank-you.html` | Building the pages |
+| `scripts/create_stripe_price.py` | Making the sandbox price |
+| `scripts/check_product.py` | Before you say a product is done |
